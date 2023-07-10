@@ -37,10 +37,14 @@ const nightlifeRoutes = require('./routes/nightlifeRoutes');
 
 const historicalRoutes = require('./routes/historical');
 
+const shoppingRoutes = require('./routes/shoppingRoutes');
+
 
 app.use('/api/nightlife', nightlifeRoutes);
 
 app.use('/api/historical', historicalRoutes);
+
+app.use('/api/shopping', shoppingRoutes);
 
 
 
