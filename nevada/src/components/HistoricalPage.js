@@ -1,6 +1,6 @@
-// HistoricalPage.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import './HistoricalPage.css';
 
 const HistoricalPage = () => {
   const [reviews, setReviews] = useState([]);
@@ -34,52 +34,61 @@ const HistoricalPage = () => {
     }
   };
 
-  return (
-    <div>
-      <h1>Historical Reviews</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Landmark:
-          <input
-            type="text"
-            value={newReview.landmark}
-            onChange={(e) =>
-              setNewReview({ ...newReview, landmark: e.target.value })
-            }
-          />
-        </label>
-        <label>
-          Rating:
-          <input
-            type="number"
-            value={newReview.rating}
-            onChange={(e) =>
-              setNewReview({ ...newReview, rating: e.target.value })
-            }
-          />
-        </label>
-        <label>
-          Comment:
-          <textarea
-            value={newReview.comment}
-            onChange={(e) =>
-              setNewReview({ ...newReview, comment: e.target.value })
-            }
-          />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-      <div>
-        <h2>Reviews:</h2>
-        {reviews.map((review) => (
-          <div key={review._id}>
-            <h3>{review.landmark}</h3>
-            <p>Rating: {review.rating}</p>
-            <p>{review.comment}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+  return React.createElement(
+    'div',
+    { className: 'historical-page' },
+    React.createElement('h1', null, 'Historical Reviews'),
+    React.createElement(
+      'form',
+      { onSubmit: handleSubmit },
+      React.createElement(
+        'label',
+        null,
+        'Landmark:',
+        React.createElement('input', {
+          type: 'text',
+          value: newReview.landmark,
+          onChange: (e) =>
+            setNewReview({ ...newReview, landmark: e.target.value }),
+        })
+      ),
+      React.createElement(
+        'label',
+        null,
+        'Rating:',
+        React.createElement('input', {
+          type: 'number',
+          value: newReview.rating,
+          onChange: (e) =>
+            setNewReview({ ...newReview, rating: e.target.value }),
+        })
+      ),
+      React.createElement(
+        'label',
+        null,
+        'Comment:',
+        React.createElement('textarea', {
+          value: newReview.comment,
+          onChange: (e) =>
+            setNewReview({ ...newReview, comment: e.target.value }),
+        })
+      ),
+      React.createElement('button', { type: 'submit' }, 'Submit')
+    ),
+    React.createElement(
+      'div',
+      { className: 'reviews-container' },
+      React.createElement('h2', null, 'Reviews:'),
+      reviews.map((review) =>
+        React.createElement(
+          'div',
+          { key: review._id },
+          React.createElement('h3', null, review.landmark),
+          React.createElement('p', null, 'Rating: ', review.rating),
+          React.createElement('p', null, review.comment)
+        )
+      )
+    )
   );
 };
 
