@@ -1,20 +1,32 @@
-const mongoose = require('mongoose');
+const express = require("express");
+const router = express.Router();
+const adventureReview = require("../models/AdventureReview");
 
-const adventureReviewSchema = new mongoose.Schema({
-  location: {
-    type: String,
-    required: true,
-  },
-  rating: {
-    type: Number,
-    required: true,
-  },
-  comment: {
-    type: String,
-    required: true,
-  },
+router.get("/",async(req,res)=>{
+  try{
+   let reviews = await adventureReview.find({}); // {restaurant: req.query.restaurant} 
+    res.send({reviews})
+  }catch(e){
+    console.log("reviews",e)
+    res.status(500).send("Failure")
+  }
+})
+
+router.post("/submit", async (req, res) => {
+  try {
+    const { location, rating, comment } = req.body;
+
+    // Create a new review object
+    await new adventureReview({
+      location,
+      rating,
+      comment,
+    }).save();
+    res.send("Success");
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Failure");
+  }
 });
 
-const adventureReview = mongoose.model('Adventure Review', adventureReviewSchema);
-
-module.exports = adventureReview;
+module.exports = router;

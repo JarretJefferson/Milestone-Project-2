@@ -19,7 +19,7 @@ const AdventurePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/adventureReviews', newAdventureReview);
+      await axios.post('/api/adventureReviews/submit', newAdventureReview);
       fetchAdventureReviews();
       setNewAdventureReview({
         location: '',
@@ -84,7 +84,7 @@ const AdventurePage = () => {
         <h2>Reviews:</h2>
         {adventureReviews.map((adventureReview) => (
           <div key={adventureReview._id} className="review">
-            <h3>{adventureReview.restaurant}</h3>
+            <h3>{adventureReview.location}</h3>
             <StarRatings
               rating={parseFloat(adventureReview.rating)}
               starRatedColor="blue"
