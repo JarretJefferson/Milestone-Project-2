@@ -25,12 +25,21 @@ mongoose
 // Parse JSON bodies
 app.use(express.json());
 
-// Routes
+// food Routes
 const foodRoutes = require('./routes/foodRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 
+// adventure routes
+const adventureRoutes = require('./routes/AdventureRoutes');
+const adventureReviewRoutes = require('./routes/AdventureReviewRoutes');
+
+//food api
 app.use('/api/foods', foodRoutes);
 app.use('/api/reviews', reviewRoutes);
+
+//adventure api
+app.use('/api/adventure', adventureRoutes);
+app.use('/api/adventureReviews', adventureReviewRoutes);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'nevada', 'build')));

@@ -11,15 +11,13 @@ import HistoricalPage from './components/HistoricalPage';
 import NightlifePage from './components/NightlifePage';
 axios.defaults.baseURL = "http://localhost:3003"
 const App = () => {
-  const [examples, setExamples] = useState([]);
+  const [setExamples] = useState([]);
   const [text, setText] = useState('');
   const [restaurant, setRestaurant] = useState('');
   const [rating, setRating] = useState('');
   const [comment, setComment] = useState('');
 
-  useEffect(() => {
-    fetchExamples();
-  }, []);
+  useEffect(() => {fetchExamples();}, []);
 
   const fetchExamples = async () => {
     try {
@@ -39,12 +37,11 @@ const App = () => {
       console.error('Error:', error);
     }
   };
-
+//foods
   const submitReview = async () => {
     try {
       await axios.post('/api/reviews/submit', { restaurant, rating, comment });
-      // Optionally, you can perform any necessary actions after a successful review submission
-      // For example, clear the form fields or fetch updated reviews
+      
       setRestaurant('');
       setRating('');
       setComment('');
