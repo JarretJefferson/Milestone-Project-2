@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
+import StarRatings from 'react-star-ratings';
 import './FoodPage.css';
 
 const FoodPage = () => {
@@ -8,7 +9,9 @@ const FoodPage = () => {
     restaurant: '',
     rating: '',
     comment: '',
-  });
+  }); 
+  const [rating, setRating] = useState(0); // Add the rating state
+
   useEffect(()=>{ fetchReviews()},[])
 
   const handleSubmit = async (e) => {
@@ -35,6 +38,11 @@ const FoodPage = () => {
     }
   };
 
+  const changeRating = (newRating) => {
+    setRating(newRating);
+    setNewReview({ ...newReview, rating: newRating.toString() });
+  };
+
   return (
     <div className="food-page">
       <h1>Food Reviews</h1>
@@ -50,15 +58,13 @@ const FoodPage = () => {
           />
         </label>
         <label>
-          Rating (1-5):
-          <input
-            type="number"
-            min="1"
-            max="5"
-            value={newReview.rating}
-            onChange={(e) =>
-              setNewReview({ ...newReview, rating: e.target.value })
-            }
+          Rating:
+          <StarRatings
+            rating={rating}
+            starRatedColor="blue"
+            changeRating={changeRating}
+            numberOfStars={5}
+            name="rating"
           />
         </label>
         <label>
@@ -77,7 +83,13 @@ const FoodPage = () => {
         {reviews.map((review) => (
           <div key={review._id} className="review">
             <h3>{review.restaurant}</h3>
-            <p>Rating: {review.rating}</p>
+            <StarRatings
+              rating={parseFloat(review.rating)}
+              starRatedColor="blue"
+              numberOfStars={5}
+              starDimension="50px"
+              starSpacing="2px"
+            />
             <p>{review.comment}</p>
           </div>
         ))}

@@ -1,11 +1,12 @@
-// NightlifePage.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import StarRatings from 'react-star-ratings';
+import './Nightlife.css';
 
 const NightlifePage = () => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
-    venue: '',
+    landmark: '',
     rating: '',
     comment: '',
   });
@@ -13,10 +14,10 @@ const NightlifePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/nightlife/reviews', newReview);
+      await axios.post('/api/Nightlife/reviews', newReview);
       fetchReviews();
       setNewReview({
-        venue: '',
+        landmark: '',
         rating: '',
         comment: '',
       });
@@ -27,59 +28,69 @@ const NightlifePage = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('/api/nightlife/reviews');
+      const response = await axios.get('/api/Nightlife/reviews');
       setReviews(response.data);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  return (
-    <div>
-      <h1>Nightlife Reviews</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Venue:
-          <input
-            type="text"
-            value={newReview.venue}
-            onChange={(e) =>
-              setNewReview({ ...newReview, venue: e.target.value })
-            }
-          />
-        </label>
-        <label>
-          Rating:
-          <input
-            type="number"
-            value={newReview.rating}
-            onChange={(e) =>
-              setNewReview({ ...newReview, rating: e.target.value })
-            }
-          />
-        </label>
-        <label>
-          Comment:
-          <textarea
-            value={newReview.comment}
-            onChange={(e) =>
-              setNewReview({ ...newReview, comment: e.target.value })
-            }
-          />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-      <div>
-        <h2>Reviews:</h2>
-        {reviews.map((review) => (
-          <div key={review._id}>
-            <h3>{review.venue}</h3>
-            <p>Rating: {review.rating}</p>
-            <p>{review.comment}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+  return React.createElement(
+    'div',
+    { className: 'Nightlife-page' },
+    React.createElement('h1', null, 'Nightlife Reviews'),
+    React.createElement(
+      'form',
+      { onSubmit: handleSubmit },
+      React.createElement(
+        'label',
+        null,
+        'Landmark:',
+        React.createElement('input', {
+          type: 'text',
+          value: newReview.landmark,
+          onChange: (e) =>
+            setNewReview({ ...newReview, landmark: e.target.value }),
+        })
+      ),
+      React.createElement(
+        'label',
+        null,
+        'Rating:',
+        React.createElement(StarRatings, {
+          rating: Number(newReview.rating),
+          starRatedColor: 'gold',
+          changeRating: (newRating) =>
+            setNewReview({ ...newReview, rating: newRating }),
+          numberOfStars: 5,
+        })
+      ),
+      React.createElement(
+        'label',
+        null,
+        'Comment:',
+        React.createElement('textarea', {
+          value: newReview.comment,
+          onChange: (e) =>
+            setNewReview({ ...newReview, comment: e.target.value }),
+        })
+      ),
+      React.createElement('button', { type: 'submit' }, 'Submit')
+    ),
+    React.createElement(
+      'div',
+      { className: 'reviews-container' },
+      React.createElement('h2', null, 'Reviews:'),
+      reviews.map((review) =>
+        React.createElement(
+          'div',
+          { key: review._id },
+          React.createElement('h3', null, review.landmark),
+          React.createElement('p', null, 'Rating: ', review.rating),
+          React.createElement('p', null, review.comment)
+        )
+      )
+    )
   );
 };
 
