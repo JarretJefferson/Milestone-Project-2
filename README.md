@@ -1,1 +1,3 @@
 # Milestone-Project-2
+
+This application provides users with the opportunity to contribute their own reviews encompassing a wide range of remarkable activities available in Las Vegas, such as Nightlife, Adventure, Shopping, Historical sites, and Food Restaurants. By simply inputting the name of a desired location or landmark, users can effortlessly append a rating along with a concise comment. Upon submission, their new review will promptly appear alongside previous users' recommendations, allowing for a comprehensive collection of insights.
