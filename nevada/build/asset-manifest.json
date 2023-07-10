@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e51e040d.css",
+    "main.js": "/static/js/main.e6819db1.js",
+    "static/media/Adventure-Background.png": "/static/media/Adventure-Background.a80ae86b3c5935814ef5.png",
+    "static/media/Food-Background.png": "/static/media/Food-Background.e2496fe7d1c912aff8b9.png",
+    "index.html": "/index.html",
+    "main.e51e040d.css.map": "/static/css/main.e51e040d.css.map",
+    "main.e6819db1.js.map": "/static/js/main.e6819db1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e51e040d.css",
+    "static/js/main.e6819db1.js"
+  ]
+}

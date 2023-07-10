@@ -33,6 +33,10 @@ const reviewRoutes = require('./routes/reviewRoutes');
 const adventureRoutes = require('./routes/AdventureRoutes');
 const adventureReviewRoutes = require('./routes/AdventureReviewRoutes');
 
+const nightlifeRoutes = require('./routes/nightlifeRoutes');
+
+app.use('/api/nightlife', nightlifeRoutes);
+
 //food api
 app.use('/api/foods', foodRoutes);
 app.use('/api/reviews', reviewRoutes);
