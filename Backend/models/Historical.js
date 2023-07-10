@@ -1,15 +1,20 @@
-// models/Historical.js
-
 const mongoose = require('mongoose');
 
-const historicalSchema = new mongoose.Schema({
-  // Define the fields and their types specific to adventures
-  landmark: String,
-  rating: Number,
-  description: String,
-  // Add more fields as needed
+const historicalReviewSchema = new mongoose.Schema({
+  location: {
+    type: String,
+    required: true,
+  },
+  rating: {
+    type: Number,
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
 });
 
-const Historical = mongoose.model('Historical', historicalSchemaSchema);
+const historicalReview = mongoose.model('historical', historicalReviewSchema);
 
-module.exports = Historical;
+module.exports = historicalReview;
