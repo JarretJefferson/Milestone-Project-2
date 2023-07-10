@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import StarRatings from 'react-star-ratings';
 import './Nightlife.css';
@@ -10,6 +10,8 @@ const NightlifePage = () => {
     rating: '',
     comment: '',
   });
+
+  useEffect(()=>{ fetchReviews()},[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import StarRatings from 'react-star-ratings';
 import './HistoricalPage.css';
 
 const HistoricalPage = () => {
@@ -10,10 +11,12 @@ const HistoricalPage = () => {
     comment: '',
   });
 
+  useEffect(()=>{ fetchReviews()},[])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/historical/submit', newReview);
+      await axios.post('/api/Historical/submit', newReview);
       fetchReviews();
       setNewReview({
         location: '',
@@ -27,7 +30,7 @@ const HistoricalPage = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('/api/historical/');
+      const response = await axios.get('/api/Historical/');
       setReviews(response.data.reviews);
     } catch (error) {
       console.error('Error:', error);
@@ -56,11 +59,12 @@ const HistoricalPage = () => {
         'label',
         null,
         'Rating:',
-        React.createElement('input', {
-          type: 'number',
-          value: newReview.rating,
-          onChange: (e) =>
-            setNewReview({ ...newReview, rating: e.target.value }),
+        React.createElement(StarRatings, {
+          rating: Number(newReview.rating),
+          starRatedColor: 'gold',
+          changeRating: (newRating) =>
+            setNewReview({ ...newReview, rating: newRating }),
+          numberOfStars: 5,
         })
       ),
       React.createElement(
