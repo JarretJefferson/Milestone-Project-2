@@ -10,15 +10,17 @@ const port = process.env.PORT || 3003;
 app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/reviews', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
-const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log('Connected to MongoDB database');
-});
+mongoose
+  .connect('mongodb+srv://maldolt:Pikachu1!@cluster0.5nvxwp6.mongodb.net/', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch((err) => {
+    console.log("Could not connect to MongoDB...");
+    console.log(err);
+  });
 
 // Parse JSON bodies
 app.use(express.json());
