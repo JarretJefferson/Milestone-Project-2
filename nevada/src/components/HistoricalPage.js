@@ -5,7 +5,7 @@ import './HistoricalPage.css';
 const HistoricalPage = () => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
-    landmark: '',
+    location: '',
     rating: '',
     comment: '',
   });
@@ -13,10 +13,10 @@ const HistoricalPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/historical/reviews', newReview);
+      await axios.post('/api/historical/submit', newReview);
       fetchReviews();
       setNewReview({
-        landmark: '',
+        location: '',
         rating: '',
         comment: '',
       });
@@ -27,8 +27,8 @@ const HistoricalPage = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('/api/historical/reviews');
-      setReviews(response.data);
+      const response = await axios.get('/api/historical/');
+      setReviews(response.data.reviews);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -44,12 +44,12 @@ const HistoricalPage = () => {
       React.createElement(
         'label',
         null,
-        'Landmark:',
+        'location:',
         React.createElement('input', {
           type: 'text',
-          value: newReview.landmark,
+          value: newReview.location,
           onChange: (e) =>
-            setNewReview({ ...newReview, landmark: e.target.value }),
+            setNewReview({ ...newReview, location: e.target.value }),
         })
       ),
       React.createElement(
@@ -83,7 +83,7 @@ const HistoricalPage = () => {
         React.createElement(
           'div',
           { key: review._id },
-          React.createElement('h3', null, review.landmark),
+          React.createElement('h3', null, review.location),
           React.createElement('p', null, 'Rating: ', review.rating),
           React.createElement('p', null, review.comment)
         )
