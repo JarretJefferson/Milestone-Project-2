@@ -10,25 +10,36 @@ const port = process.env.PORT || 3003;
 app.use(cors());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/reviews', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
-const connection = mongoose.connection;
-connection.once('open', () => {
-  console.log('Connected to MongoDB database');
-});
+mongoose
+  .connect('mongodb+srv://maldolt:Pikachu1!@cluster0.5nvxwp6.mongodb.net/', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch((err) => {
+    console.log("Could not connect to MongoDB...");
+    console.log(err);
+  });
 
 // Parse JSON bodies
 app.use(express.json());
 
-// Routes
+// food Routes
 const foodRoutes = require('./routes/foodRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 
+// adventure routes
+const adventureRoutes = require('./routes/adventureRoutes');
+const adventureReviewRoutes = require('./routes/AdventureReviewRoutes');
+
+//food api
 app.use('/api/foods', foodRoutes);
 app.use('/api/reviews', reviewRoutes);
+
+//food api
+app.use('/api/adventure', adventureRoutes);
+app.use('/api/adventureReviews', adventureReviewRoutes);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'nevada', 'build')));
