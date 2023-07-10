@@ -6,7 +6,7 @@ import './Nightlife.css';
 const NightlifePage = () => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({
-    landmark: '',
+    location: '',
     rating: '',
     comment: '',
   });
@@ -14,10 +14,10 @@ const NightlifePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/api/Nightlife/reviews', newReview);
+      await axios.post('/api/Nightlife/submit', newReview);
       fetchReviews();
       setNewReview({
-        landmark: '',
+        location: '',
         rating: '',
         comment: '',
       });
@@ -28,8 +28,8 @@ const NightlifePage = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('/api/Nightlife/reviews');
-      setReviews(response.data);
+      const response = await axios.get('/api/Nightlife/');
+      setReviews(response.data.reviews);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -45,12 +45,12 @@ const NightlifePage = () => {
       React.createElement(
         'label',
         null,
-        'Landmark:',
+        'location:',
         React.createElement('input', {
           type: 'text',
-          value: newReview.landmark,
+          value: newReview.location,
           onChange: (e) =>
-            setNewReview({ ...newReview, landmark: e.target.value }),
+            setNewReview({ ...newReview, location: e.target.value }),
         })
       ),
       React.createElement(
@@ -85,7 +85,7 @@ const NightlifePage = () => {
         React.createElement(
           'div',
           { key: review._id },
-          React.createElement('h3', null, review.landmark),
+          React.createElement('h3', null, review.location),
           React.createElement('p', null, 'Rating: ', review.rating),
           React.createElement('p', null, review.comment)
         )
