@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './NightlifePage.css';
-
+import StarRatings from 'react-star-ratings';
+import './Nightlife.css';
 
 const NightlifePage = () => {
   const [reviews, setReviews] = useState([]);
@@ -57,11 +57,12 @@ const NightlifePage = () => {
         'label',
         null,
         'Rating:',
-        React.createElement('input', {
-          type: 'number',
-          value: newReview.rating,
-          onChange: (e) =>
-            setNewReview({ ...newReview, rating: e.target.value }),
+        React.createElement(StarRatings, {
+          rating: Number(newReview.rating),
+          starRatedColor: 'gold',
+          changeRating: (newRating) =>
+            setNewReview({ ...newReview, rating: newRating }),
+          numberOfStars: 5,
         })
       ),
       React.createElement(
