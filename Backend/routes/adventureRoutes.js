@@ -1,17 +1,18 @@
+
 const express = require('express');
 const router = express.Router();
-const Review = require('../models/Review');
+const adventureReview = require('../models/AdventureReview');
 
 router.post('/submit', (req, res) => {
-  const { restaurant, rating, comment } = req.body;
+  const { location, rating, comment } = req.body;
 
-  const newReview = new Review({
-    place,
+  const newAdventureReview = new adventureReview({
+    location,
     rating,
     comment,
   });
 
-  newReview.save((err, result) => {
+  newAdventureReview.save((err, result) => {
     if (err) {
       console.error('Error:', err);
       res.status(500).send('Error adding review');
