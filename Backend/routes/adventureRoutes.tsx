@@ -1,12 +1,12 @@
+import express, { Request, Response } from 'express';
+import AdventureReview from '../models/AdventureReview';
 
-const express = require('express');
 const router = express.Router();
-const adventureReview = require('../models/AdventureReview');
 
-router.post('/submit', (req, res) => {
+router.post('/submit', (req: Request, res: Response) => {
   const { location, rating, comment } = req.body;
 
-  const newAdventureReview = new adventureReview({
+  const newAdventureReview = new AdventureReview({
     location,
     rating,
     comment,
@@ -23,4 +23,4 @@ router.post('/submit', (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

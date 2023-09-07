@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
@@ -9,17 +9,19 @@ import AdventurePage from './components/AdventurePage';
 import ShoppingPage from './components/ShoppingPage';
 import HistoricalPage from './components/HistoricalPage';
 import NightlifePage from './components/NightlifePage';
-axios.defaults.baseURL = "http://localhost:3003"
-const App = () => {
-  const [setExamples] = useState([]);
-  const [text, setText] = useState('');
-  const [restaurant, setRestaurant] = useState('');
-  const [rating, setRating] = useState('');
-  const [comment, setComment] = useState('');
 
-  useEffect(() => {fetchExamples();}, []);
+axios.defaults.baseURL = "http://localhost:3003";
 
-  const fetchExamples = async () => {
+const App: FC = () => {
+  const [, setExamples] = useState<string[]>([]);
+  const [text, setText] = useState<string>('');
+  const [restaurant, setRestaurant] = useState<string>('');
+  const [rating, setRating] = useState<string>('');
+  const [comment, setComment] = useState<string>('');
+
+  useEffect(() => { fetchExamples(); }, []);
+
+  const fetchExamples = async (): Promise<void> => {
     try {
       const response = await axios.get('/api/example');
       setExamples(response.data);
@@ -28,7 +30,7 @@ const App = () => {
     }
   };
 
-  const addExample = async () => {
+  const addExample = async (): Promise<void> => {
     try {
       await axios.post('/api/example/add', { text });
       fetchExamples();
@@ -37,8 +39,9 @@ const App = () => {
       console.error('Error:', error);
     }
   };
-//foods
-  const submitReview = async () => {
+
+  //foods
+  const submitReview = async (): Promise<void> => {
     try {
       await axios.post('/api/reviews/submit', { restaurant, rating, comment });
       
@@ -67,3 +70,4 @@ const App = () => {
 };
 
 export default App;
+

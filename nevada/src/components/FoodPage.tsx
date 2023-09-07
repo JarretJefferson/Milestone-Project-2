@@ -1,20 +1,29 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import StarRatings from 'react-star-ratings';
 import './FoodPage.css';
 
-const FoodPage = () => {
-  const [reviews, setReviews] = useState([]);
-  const [newReview, setNewReview] = useState({
+interface Review {
+  _id?: string;
+  restaurant: string;
+  rating: string;
+  comment: string;
+}
+
+const FoodPage: React.FC = () => {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [newReview, setNewReview] = useState<Review>({
     restaurant: '',
     rating: '',
     comment: '',
-  }); 
-  const [rating, setRating] = useState(0); // Add the rating state
+  });
+  const [rating, setRating] = useState<number>(0);
 
-  useEffect(()=>{ fetchReviews()},[])
+  useEffect(() => {
+    fetchReviews();
+  }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       await axios.post('/api/reviews/submit', newReview);
@@ -31,16 +40,20 @@ const FoodPage = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get('/api/reviews');
+      const response = await axios.get<{ reviews: Review[] }>('/api/reviews');
       setReviews(response.data.reviews);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  const changeRating = (newRating) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof Review) => {
+    setNewReview(prev => ({ ...prev, [field]: e.target.value }));
+  };
+
+  const changeRating = (newRating: number) => {
     setRating(newRating);
-    setNewReview({ ...newReview, rating: newRating.toString() });
+    setNewReview(prev => ({ ...prev, rating: newRating.toString() }));
   };
 
   return (
@@ -52,9 +65,7 @@ const FoodPage = () => {
           <input
             type="text"
             value={newReview.restaurant}
-            onChange={(e) =>
-              setNewReview({ ...newReview, restaurant: e.target.value })
-            }
+            onChange={(e) => handleInputChange(e, 'restaurant')}
           />
         </label>
         <label>
@@ -71,9 +82,7 @@ const FoodPage = () => {
           Comment:
           <textarea
             value={newReview.comment}
-            onChange={(e) =>
-              setNewReview({ ...newReview, comment: e.target.value })
-            }
+            onChange={(e) => handleInputChange(e, 'comment')}
           />
         </label>
         <button type="submit">Submit</button>
@@ -99,6 +108,7 @@ const FoodPage = () => {
 };
 
 export default FoodPage;
+
 
 
 

@@ -1,22 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import StarRatings from 'react-star-ratings';
 import './AdventurePage.css';
 
-const AdventurePage = () => {
-  const [adventureReviews, setAdventureReviews] = useState([]);
-  const [newAdventureReview, setNewAdventureReview] = useState({
+interface AdventureReview {
+  _id?: string;
+  location: string;
+  rating: string;
+  comment: string;
+}
+
+const AdventurePage: React.FC = () => {
+  const [adventureReviews, setAdventureReviews] = useState<AdventureReview[]>([]);
+  const [newAdventureReview, setNewAdventureReview] = useState<AdventureReview>({
     location: '',
     rating: '',
     comment: '',
   });
-  const [rating, setRating] = useState(0); // Add the rating state
+  const [rating, setRating] = useState<number>(0);
 
   useEffect(() => {
     fetchAdventureReviews();
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       await axios.post('/api/adventureReviews/submit', newAdventureReview);
@@ -33,16 +40,20 @@ const AdventurePage = () => {
 
   const fetchAdventureReviews = async () => {
     try {
-      const response = await axios.get('/api/adventureReviews');
+      const response = await axios.get<{ reviews: AdventureReview[] }>('/api/adventureReviews');
       setAdventureReviews(response.data.reviews);
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  const changeRating = (newRating) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof AdventureReview) => {
+    setNewAdventureReview(prev => ({ ...prev, [field]: e.target.value }));
+  };
+
+  const changeRating = (newRating: number) => {
     setRating(newRating);
-    setNewAdventureReview({ ...newAdventureReview, rating: newRating.toString() });
+    setNewAdventureReview(prev => ({ ...prev, rating: newRating.toString() }));
   };
 
   return (
@@ -54,9 +65,7 @@ const AdventurePage = () => {
           <input
             type="text"
             value={newAdventureReview.location}
-            onChange={(e) =>
-              setNewAdventureReview({ ...newAdventureReview, location: e.target.value })
-            }
+            onChange={(e) => handleInputChange(e, 'location')}
           />
         </label>
         <label>
@@ -73,9 +82,7 @@ const AdventurePage = () => {
           Comment:
           <textarea
             value={newAdventureReview.comment}
-            onChange={(e) =>
-              setNewAdventureReview({ ...newAdventureReview, comment: e.target.value })
-            }
+            onChange={(e) => handleInputChange(e, 'comment')}
           />
         </label>
         <button type="submit">Submit</button>

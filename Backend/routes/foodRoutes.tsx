@@ -1,8 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const Review = require('../models/Review');
+import express, { Request, Response } from 'express';
+import Review from '../models/Review';
 
-router.post('/submit', (req, res) => {
+const router = express.Router();
+
+router.post('/submit', (req: Request, res: Response) => {
   const { restaurant, rating, comment } = req.body;
 
   const newReview = new Review({
@@ -22,5 +23,4 @@ router.post('/submit', (req, res) => {
   });
 });
 
-module.exports = router;
-
+export default router;
